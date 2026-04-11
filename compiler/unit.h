@@ -28,8 +28,20 @@ enum instruction_kind {
 
 typedef struct {
     enum operand_kind type;
-    byte selector;
+    byte value;
 } operand;
+
+enum reg {
+    A, B, C, D, E, H, L, M
+};
+
+enum reg_pair {
+    BC, DE, HL, SP, PSW
+};
+
+enum reg_cond {
+    NZ, Z, NC, _C, PO, PE, P, _M
+};
 
 typedef struct _comp_unit {
     struct _comp_unit* next;

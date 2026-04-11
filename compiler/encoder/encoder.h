@@ -2,10 +2,9 @@
 #define DECODE_H
 
 #include "../../core/common.h"
-#include "../cpu.h"
-#include "instruction.h"
+#include "../unit.h"
 
-instruction *decode(cpu* c, int mempos, size_t tick);
+byte encode(comp_unit in);
 void dump_decoder();
 
 #endif // DECODE_H
