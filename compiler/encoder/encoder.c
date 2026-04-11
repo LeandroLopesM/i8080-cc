@@ -57,19 +57,19 @@ byte encode(comp_unit in)
         case MOV:
         EXPECTS(in, "RDest, RSrc", in.opA, in.opB, !in.opC);
             out = m_MOV;
-            out |= encode_register(in.opA->value) >> 2;
-            out |= encode_register(in.opB->value) >> 5;
+            out |= encode_register(in.opA->value) << 4;
+            out |= encode_register(in.opB->value);
             break;
         case MVI:
         EXPECTS(in, "Register, byte", in.opA, in.opB, !in.opC);
             out = m_MVI;
-            out |= encode_register(in.opA->value) >> 2;
+            out |= encode_register(in.opA->value) << 4;
             *in.opA = *in.opB;
             break;
         case LXI:
         EXPECTS(in, "Register, MemLo, MemHi", in.opA, in.opB, in.opC);
             out = m_LXI;
-            out |= encode_regpair(in.opA->value) >> 2;
+            out |= encode_regpair(in.opA->value) << 4;
             *in.opA = *in.opB;
             *in.opB = *in.opC;
             break;
@@ -92,14 +92,14 @@ byte encode(comp_unit in)
         case LDAX:
         EXPECTS(in, "RegPair, MemLo, MemHi", in.opA, in.opB, in.opC);
             out = m_LDAX;
-            out |= encode_rp_xx(in.opA->value) >> 2;
+            out |= encode_rp_xx(in.opA->value) << 4;
             *in.opA = *in.opB;
             *in.opB = *in.opC;
             break;
         case STAX:
         EXPECTS(in, "RegPair, MemLo, MemHi", in.opA, in.opB, in.opC);
             out = m_STAX;
-            out |= encode_rp_xx(in.opA->value) >> 2;
+            out |= encode_rp_xx(in.opA->value) << 4;
             *in.opA = *in.opB;
             *in.opB = *in.opC;
             break;
@@ -110,7 +110,7 @@ byte encode(comp_unit in)
         case ADD:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_ADD;
-            out |= encode_register(in.opA->value) >> 5;
+            out |= encode_register(in.opA->value);
             break;
         case ADI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -119,7 +119,7 @@ byte encode(comp_unit in)
         case ADC:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_ADC;
-            out |= encode_register(in.opA->value) >> 5;
+            out |= encode_register(in.opA->value);
             break;
         case ACI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -128,7 +128,7 @@ byte encode(comp_unit in)
         case SUB:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_SUB;
-            out |= encode_register(in.opA->value) >> 5;
+            out |= encode_register(in.opA->value);
             break;
         case SUI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -137,7 +137,7 @@ byte encode(comp_unit in)
         case SBB:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_SBB;
-            out |= encode_register(in.opA->value) >> 5;
+            out |= encode_register(in.opA->value);
             break;
         case SBI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -146,27 +146,27 @@ byte encode(comp_unit in)
         case INR:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_INR;
-            out |= encode_register(in.opA->value) >> 2;
+            out |= encode_register(in.opA->value) << 4;
             break;
         case DCR:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_DCR;
-            out |= encode_register(in.opA->value) >> 2;
+            out |= encode_register(in.opA->value) << 4;
             break;
         case INX:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_INR;
-            out |= encode_regpair(in.opA->value) >> 2;
+            out |= encode_regpair(in.opA->value) << 4;
             break;
         case DCX:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_INR;
-            out |= encode_regpair(in.opA->value) >> 2;
+            out |= encode_regpair(in.opA->value) << 4;
             break;
         case DAD:
         EXPECTS(in, "RegisterPair", in.opA, !in.opB, !in.opC);
             out = m_DAD;
-            out |= encode_regpair(in.opA->value) >> 2;
+            out |= encode_regpair(in.opA->value) << 4;
             break;
         case DAA:
         EXPECTS(in, "Nothing", !in.opA, !in.opB, !in.opC);
@@ -175,7 +175,7 @@ byte encode(comp_unit in)
         case ANA:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_ANA;
-            out |= encode_register(in.opA->value) >> 2;
+            out |= encode_register(in.opA->value) << 4;
             break;
         case ANI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -184,7 +184,7 @@ byte encode(comp_unit in)
         case ORA:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_ORA;
-            out |= encode_register(in.opA->value) >> 2;
+            out |= encode_register(in.opA->value) << 4;
             break;
         case ORI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -193,7 +193,7 @@ byte encode(comp_unit in)
         case XRA:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_XRA;
-            out |= encode_register(in.opA->value) >> 2;
+            out |= encode_register(in.opA->value) << 4;
             break;
         case XRI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -202,7 +202,7 @@ byte encode(comp_unit in)
         case CMP:
         EXPECTS(in, "Register", in.opA, !in.opB, !in.opC);
             out = m_CMP;
-            out |= encode_register(in.opA->value) >> 5;
+            out |= encode_register(in.opA->value);
             break;
         case CPI:
         EXPECTS(in, "Byte", in.opA, !in.opB, !in.opC);
@@ -273,11 +273,11 @@ byte encode(comp_unit in)
         case PUSH:
         EXPECTS(in, "RegPair", in.opA, !in.opB, !in.opC);
             out = m_PUSH;
-            out |= encode_regpair(in.opA->value) >> 2;
+            out |= encode_regpair(in.opA->value) << 4;
             break;
         case POP:
             out = m_POP;
-            out |= encode_regpair(in.opA->value) >> 2;
+            out |= encode_regpair(in.opA->value) << 4;
             break;
         case XTHL:
         EXPECTS(in, "Nothing", !in.opA, !in.opB, !in.opC);

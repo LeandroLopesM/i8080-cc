@@ -9,4 +9,4 @@ include core/core.mk
 $(BINDIR):
 	mkdir $(BINDIR)
 $(BINDIR)/obj: $(BINDIR)
-	mkdir $(BINDIR)/obj
+	mkdir -p $(BINDIR)/obj
