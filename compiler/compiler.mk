@@ -1,9 +1,11 @@
 BINDIR?=bin
 CC_DIR=compiler
 
-SOURCES = 							\
+SOURCES = 						\
 	$(BINDIR)/obj/encoder.o		\
 	$(BINDIR)/obj/argument.o	\
+	$(BINDIR)/obj/arrays.o		\
+	$(BINDIR)/obj/parser.o		\
 	$(BINDIR)/obj/core.o
 
 $(BINDIR)/compiler.exe: $(SOURCES) $(BINDIR)/obj/compiler.o $(BINDIR)
@@ -17,3 +19,9 @@ $(BINDIR)/obj/encoder.o: $(CC_DIR)/encoder/encoder.c $(BINDIR)/obj
 
 $(BINDIR)/obj/argument.o: $(CC_DIR)/encoder/argument/argument.c $(BINDIR)/obj
 	$(CC) $(CFLAGS) $(CC_DIR)/encoder/argument/argument.c -c -o $(BINDIR)/obj/argument.o
+
+$(BINDIR)/obj/arrays.o: $(CC_DIR)/parser/util/arrays.c $(BINDIR)/obj
+	$(CC) $(CFLAGS) $(CC_DIR)/parser/util/arrays.c -c -o $(BINDIR)/obj/arrays.o
+
+$(BINDIR)/obj/parser.o: $(CC_DIR)/parser/parser.c $(BINDIR)/obj
+	$(CC) $(CFLAGS) $(CC_DIR)/parser/parser.c -c -o $(BINDIR)/obj/parser.o
