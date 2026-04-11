@@ -4,14 +4,15 @@
 
 int main() {
     operand db = {
-        .type = IMM_BYTE
+        .type = IMM_BYTE,
+        .value = 123
     };
 
     comp_unit cu = {
         .next = 0,
         .type = MOV,
         .opA = &db,
-        .opB = 0,
+        .opB = &db,
         .opC = 0,
     };
 

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "masks.h"
+#include "util/masks.h"
 #include "../unit.h"
-#include "argument.h"
+#include "argument/argument.h"
 #include "../../core/log.h"
 #include "../../core/common.h"
 
@@ -55,13 +55,13 @@ byte encode(comp_unit in)
     switch (in.type)
     {
         case MOV:
-        EXPECTS(in, "RDest, RSrc", in.opA, in.opB, in.opC);
+        EXPECTS(in, "RDest, RSrc", in.opA, in.opB, !in.opC);
             out = m_MOV;
             out |= encode_register(in.opA->value) >> 2;
             out |= encode_register(in.opB->value) >> 5;
             break;
         case MVI:
-        EXPECTS(in, "Register, byte", in.opA, in.opB, in.opC);
+        EXPECTS(in, "Register, byte", in.opA, in.opB, !in.opC);
             out = m_MVI;
             out |= encode_register(in.opA->value) >> 2;
             *in.opA = *in.opB;
@@ -74,19 +74,19 @@ byte encode(comp_unit in)
             *in.opB = *in.opC;
             break;
         case LDA:
-        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, in.opC);
+        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, !in.opC);
             out = m_LDA;
             break;
         case STA:
-        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, in.opC);
+        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, !in.opC);
             out = m_STA;
             break;
         case LHLD:
-        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, in.opC);
+        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, !in.opC);
             out = m_LHLD;
             break;
         case SHLD:
-        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, in.opC);
+        EXPECTS(in, "MemLo, MemHi", in.opA, in.opB, !in.opC);
             out = m_SHLD;
             break;
         case LDAX:

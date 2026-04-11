@@ -1,6 +1,6 @@
 #include "argument.h"
 
-#include "../../core/log.h"
+#include "../../../core/log.h"
 #include <stdlib.h>
 
 byte encode_register(enum reg r)

@@ -1,8 +1,8 @@
 #ifndef ARGUMENT_H
 #define ARGUMENT_H
 
-#include "../../core/common.h"
-#include "../unit.h"
+#include "../../../core/common.h"
+#include "../../unit.h"
 
 byte encode_register(enum reg r);
 byte encode_regpair(enum reg_pair selector);
