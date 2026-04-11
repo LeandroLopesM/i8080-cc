@@ -14,13 +14,8 @@
   ((byte) & 0x01 ? '1' : '0')
 
 int main() {
-    operand db = {
-        .value = HL,
-    };
-    operand db2 = {
-        .type = IMM_BYTE,
-        .value = 123,
-    };
+    operand db = HL;
+    operand db2 = 123;
 
     comp_unit cu = {
         .next = 0,

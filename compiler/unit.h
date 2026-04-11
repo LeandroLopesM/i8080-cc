@@ -26,10 +26,7 @@ enum instruction_kind {
 };
 
 
-typedef struct {
-    enum operand_kind type;
-    byte value;
-} operand;
+typedef byte operand;
 
 enum reg {
     A, B, C, D, E, H, L, M
