@@ -36,6 +36,7 @@
 #define m_XRI  0b11101110
 #define m_CMP  0b10111000
 #define m_CPI  0b11111110
+#define m_RLC  0b00000111
 #define m_RRC  0b00001111
 #define m_RAL  0b00010111
 #define m_RAR  0b00011111

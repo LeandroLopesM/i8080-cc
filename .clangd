@@ -1,0 +1,5 @@
+If:
+  PathMatch: .*\.c
+
+CompileFlags:
+    Add: [-Wall, -Wextra, -Wpedantic, -std=c23]

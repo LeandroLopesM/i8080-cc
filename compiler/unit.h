@@ -1,7 +1,14 @@
-#ifndef INSTRUCTION_H
-#define INSTRUCTION_H
+#ifndef UNIT_H
+#define UNIT_H
 
-#include "../../core/common.h"
+#include "../core/common.h"
+
+enum operand_kind {
+    IMM_WORD,   // X lb, hb
+    IMM_BYTE,   // X b
+    MEMORY,     // X [HL]
+    REGISTER    // X[R]
+};
 
 enum instruction_kind {
     MOV , MVI , LXI , LDA , STA ,
@@ -18,11 +25,19 @@ enum instruction_kind {
     HLT , NOP
 };
 
-typedef struct {
-    enum instruction_kind kind;
-    byte opcode;
-    byte* opA;
-    byte* opB;
-} instruction;
 
-#endif // INSTRUCTION_H
+typedef struct {
+    enum operand_kind type;
+    byte selector;
+} operand;
+
+typedef struct _comp_unit {
+    struct _comp_unit* next;
+
+    enum instruction_kind type;
+    operand* opA;
+    operand* opB;
+    operand* opC;
+} comp_unit;
+
+#endif // UNIT_H
