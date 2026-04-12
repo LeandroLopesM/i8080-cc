@@ -69,6 +69,9 @@ void parse_num(string in, safe_ptr a, safe_ptr b, int radix, size_t maxbyte, siz
         *b.p = w.asbyte.hi;
     }
     else error("Numeric literal %s too large", in.items);
+
+    if (*a.p == 1 && in.items[0] != '1')
+        error("Failed to parse numeric literal %s", in.items);
 }
 
 void parse_numlit(string in, safe_ptr a, safe_ptr b)

@@ -4,6 +4,15 @@
 #include "unit.h"
 #include "encoder/encoder.h"
 
+void print_be(byte in)
+{
+    for (int i = 7; i >= 0; --i)
+    {
+        printf("%d", (in >> i) & 1);
+    }
+    printf("\n");
+}
+
 int main() {
     // operand db = HL;
     // operand db2 = 123;
@@ -27,5 +36,7 @@ int main() {
     printf("B: %d\n", cu.opB? *cu.opB : 0);
     printf("C: %d\n", cu.opC? *cu.opC : 0);
 
-    printf("%#X", encode(cu));
+    byte b = encode(cu);
+    print_be(b);
+    printf(": %d %#X", b, b);
 }

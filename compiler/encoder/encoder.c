@@ -78,7 +78,7 @@ byte encode(comp_unit* in)
         case LXI:
         expects(in, "Register, MemLo, MemHi", _A | _B | _C);
             out = m_LXI;
-            out |= encode_regpair(*in->opA) << 5;
+            out |= encode_regpair(*in->opA) << 4;
             *in->opA = *in->opB;
             *in->opB = *in->opC;
             break;
@@ -101,14 +101,14 @@ byte encode(comp_unit* in)
         case LDAX:
         expects(in, "RegPair, MemLo, MemHi", _A | _B | _C);
             out = m_LDAX;
-            out |= encode_rp_xx(*in->opA) << 5;
+            out |= encode_rp_xx(*in->opA) << 4;
             *in->opA = *in->opB;
             *in->opB = *in->opC;
             break;
         case STAX:
         expects(in, "RegPair, MemLo, MemHi", _A | _B | _C);
             out = m_STAX;
-            out |= encode_rp_xx(*in->opA) << 5;
+            out |= encode_rp_xx(*in->opA) << 4;
             *in->opA = *in->opB;
             *in->opB = *in->opC;
             break;
@@ -165,17 +165,17 @@ byte encode(comp_unit* in)
         case INX:
         expects(in, "Register", A);
             out = m_INR;
-            out |= encode_regpair(*in->opA) << 5;
+            out |= encode_regpair(*in->opA) << 4;
             break;
         case DCX:
         expects(in, "Register", A);
             out = m_INR;
-            out |= encode_regpair(*in->opA) << 5;
+            out |= encode_regpair(*in->opA) << 4;
             break;
         case DAD:
         expects(in, "RegisterPair", A);
             out = m_DAD;
-            out |= encode_regpair(*in->opA) << 5;
+            out |= encode_regpair(*in->opA) << 4;
             break;
         case DAA:
         expects(in, "Nothing", 0);
@@ -282,11 +282,11 @@ byte encode(comp_unit* in)
         case PUSH:
         expects(in, "RegPair", A);
             out = m_PUSH;
-            out |= encode_regpair(*in->opA) << 5;
+            out |= encode_regpair(*in->opA) << 4;
             break;
         case POP:
             out = m_POP;
-            out |= encode_regpair(*in->opA) << 5;
+            out |= encode_regpair(*in->opA) << 4;
             break;
         case XTHL:
         expects(in, "Nothing", 0);
