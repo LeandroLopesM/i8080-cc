@@ -74,18 +74,15 @@ void init_maps()
     add(maps.cnd, "NC", NC) ; add(maps.cnd, "_C", _C);
     add(maps.cnd, "PO", PO) ; add(maps.cnd, "PE", PE);
     add(maps.cnd, "P", P)   ; add(maps.cnd, "_M", _M);
-    }
+}
 
-int bfind(int hash, hash_map* sect)
+    int find(int hash, hash_map* sect)
 {
-    for ( int i = 0, j = sect->len; i <= j; )
+    for ( size_t i = 0; i <= sect->len; ++i )
     {
         debug("I %d VS %d", sect->keys.items[i], hash);
-        debug("J %d VS %d", sect->keys.items[j], hash);
-        if (sect->keys.items[i++] == hash)
-            return sect->values.items[i - 1];
-        else if (sect->keys.items[j--] == hash)
-            return sect->values.items[j + 1];
+        if (sect->keys.items[i] == hash)
+            return sect->values.items[i];
     }
 
     longjmp(maps.jmp, 1);
@@ -96,9 +93,9 @@ int hash_search(char* name, hash_map* table)
     int hsh = hash(name[0] == '$'? name + 1 : name); // purge register identifier $
 
     if (hsh % 2)
-        return bfind(hsh, table + 1);
+        return find(hsh, table + 1);
     else
-        return bfind(hsh, table + 0);
+        return find(hsh, table + 0);
 }
 
 enum reg_pair str_to_rp(char* name)
