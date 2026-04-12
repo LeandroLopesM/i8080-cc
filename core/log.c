@@ -2,14 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void __log(char* prefix, const char* fmt, ...)
+static void __log(char* prefix, const char* fmt, va_list va)
 {
-    va_list va;
-    va_start(va, fmt);
     printf("%-5s: ", prefix);
     vprintf( fmt, va);
     printf("\n");
-    va_end(va);
 }
 
 void error(const char* fmt, ...)

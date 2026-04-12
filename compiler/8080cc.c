@@ -21,6 +21,11 @@ int main() {
     // printf("Out 0b"BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(b));
 
     state s;
-    comp_unit cu = parse_line(&s, "MOV $D, $B", 0);
-    debug("Comes out to "BINPATT, BINGEN(encode(cu)));
+    comp_unit cu = parse_line(&s, "LXI $DE, 123h", 0);
+    printf("I: %d\n", cu.type);
+    printf("A: %d\n", cu.opA? *cu.opA : 0);
+    printf("B: %d\n", cu.opB? *cu.opB : 0);
+    printf("C: %d\n", cu.opC? *cu.opC : 0);
+
+    printf("%#X", encode(cu));
 }

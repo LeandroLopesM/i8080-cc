@@ -129,6 +129,8 @@ comp_unit parse_line(state* s, char* line, size_t current_offset)
         return (comp_unit){0};
     }
 
+    out.type = str_to_instr(ta->items[0].items);
+
     if (ta->len > 1)
     {
         out.opA = malloc(sizeof(byte));
@@ -186,7 +188,7 @@ comp_unit parse_line(state* s, char* line, size_t current_offset)
         *out.opC = *c.p;
     }
 
-    debug("Got %d %d %d %d", str_to_instr(ta->items[0].items), out.opA? *out.opA : 0, out.opB? *out.opB : 0, out.opC? *out.opC : 0);
+    debug("Got %d %d %d %d", out.type, out.opA? *out.opA : 0, out.opB? *out.opB : 0, out.opC? *out.opC : 0);
 
     return out;
 }

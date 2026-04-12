@@ -37,50 +37,50 @@ char* itos(int in)
 #define _B (1 << 1)
 #define _C (1 << 2)
 
-void expects(comp_unit i, char* fields, int flags)
+void expects(comp_unit* i, char* fields, int flags)
 {
-    if ((flags & _A && i.opA == NULL) ||
-        (flags & _B && i.opB == NULL) ||
-        (flags & _C && i.opC == NULL))
+    if ((flags & _A && i->opA == NULL) ||
+        (flags & _B && i->opB == NULL) ||
+        (flags & _C && i->opC == NULL))
         goto fail;
 
     return;
 
 fail:
     error ("+ Invalid arguments for instruction '%s'\n",
-        atlas[i.type]);
+        atlas[i->type]);
     printf("| Expected (%s)\n", fields);
     printf("| Got      (%s, %s, %s)\n",
-        i.opA? itos( * i.opA ) : "NULL",
-        i.opB? itos( * i.opB ) : "NULL",
-        i.opC? itos( * i.opC ) : "NULL");
+        i->opA? itos( * i->opA ) : "NULL",
+        i->opB? itos( * i->opB ) : "NULL",
+        i->opC? itos( * i->opC ) : "NULL");
     exit(1);
 }
 
-byte encode(comp_unit in)
+byte encode(comp_unit* in)
 {
     byte out;
 
-    switch (in.type)
+    switch (in->type)
     {
         case MOV:
         expects(in, "RDest, RSrc", _A | _B);
             out = m_MOV;
-            out |= encode_register(*in.opA) << 4;
-            out |= encode_register(*in.opB);
+            out |= encode_register(*in->opA) << 4;
+            out |= encode_register(*in->opB);
             break;
         case MVI:
         expects(in, "Register, byte", _A | _B);
             out = m_MVI;
-            out |= encode_register(*in.opA) << 4;
-            *in.opA = *in.opB;
+            out |= encode_register(*in->opA) << 4;
+            *in->opA = *in->opB;
             break;
         case LXI:
         expects(in, "Register, MemLo, MemHi", _A | _B | _C);
             out = m_LXI;
-            out |= encode_regpair(*in.opA) << 4;
-            *in.opA = *in.opB;
-            *in.opB = *in.opC;
+            out |= encode_regpair(*in->opA) << 5;
+            *in->opA = *in->opB;
+            *in->opB = *in->opC;
             break;
         case LDA:
         expects(in, "MemLo, MemHi", _A | _B);
@@ -101,16 +101,16 @@ byte encode(comp_unit in)
         case LDAX:
         expects(in, "RegPair, MemLo, MemHi", _A | _B | _C);
             out = m_LDAX;
-            out |= encode_rp_xx(*in.opA) << 4;
-            *in.opA = *in.opB;
-            *in.opB = *in.opC;
+            out |= encode_rp_xx(*in->opA) << 5;
+            *in->opA = *in->opB;
+            *in->opB = *in->opC;
             break;
         case STAX:
         expects(in, "RegPair, MemLo, MemHi", _A | _B | _C);
             out = m_STAX;
-            out |= encode_rp_xx(*in.opA) << 4;
-            *in.opA = *in.opB;
-            *in.opB = *in.opC;
+            out |= encode_rp_xx(*in->opA) << 5;
+            *in->opA = *in->opB;
+            *in->opB = *in->opC;
             break;
         case XCHG:
         expects(in, "Nothing", 0);
@@ -119,7 +119,7 @@ byte encode(comp_unit in)
         case ADD:
         expects(in, "Register", A);
             out = m_ADD;
-            out |= encode_register(*in.opA);
+            out |= encode_register(*in->opA);
             break;
         case ADI:
         expects(in, "Byte", A);
@@ -128,7 +128,7 @@ byte encode(comp_unit in)
         case ADC:
         expects(in, "Register", A);
             out = m_ADC;
-            out |= encode_register(*in.opA);
+            out |= encode_register(*in->opA);
             break;
         case ACI:
         expects(in, "Byte", A);
@@ -137,7 +137,7 @@ byte encode(comp_unit in)
         case SUB:
         expects(in, "Register", A);
             out = m_SUB;
-            out |= encode_register(*in.opA);
+            out |= encode_register(*in->opA);
             break;
         case SUI:
         expects(in, "Byte", A);
@@ -146,7 +146,7 @@ byte encode(comp_unit in)
         case SBB:
         expects(in, "Register", A);
             out = m_SBB;
-            out |= encode_register(*in.opA);
+            out |= encode_register(*in->opA);
             break;
         case SBI:
         expects(in, "Byte", A);
@@ -155,27 +155,27 @@ byte encode(comp_unit in)
         case INR:
         expects(in, "Register", A);
             out = m_INR;
-            out |= encode_register(*in.opA) << 4;
+            out |= encode_register(*in->opA) << 4;
             break;
         case DCR:
         expects(in, "Register", A);
             out = m_DCR;
-            out |= encode_register(*in.opA) << 4;
+            out |= encode_register(*in->opA) << 4;
             break;
         case INX:
         expects(in, "Register", A);
             out = m_INR;
-            out |= encode_regpair(*in.opA) << 4;
+            out |= encode_regpair(*in->opA) << 5;
             break;
         case DCX:
         expects(in, "Register", A);
             out = m_INR;
-            out |= encode_regpair(*in.opA) << 4;
+            out |= encode_regpair(*in->opA) << 5;
             break;
         case DAD:
         expects(in, "RegisterPair", A);
             out = m_DAD;
-            out |= encode_regpair(*in.opA) << 4;
+            out |= encode_regpair(*in->opA) << 5;
             break;
         case DAA:
         expects(in, "Nothing", 0);
@@ -184,7 +184,7 @@ byte encode(comp_unit in)
         case ANA:
         expects(in, "Register", A);
             out = m_ANA;
-            out |= encode_register(*in.opA) << 4;
+            out |= encode_register(*in->opA) << 4;
             break;
         case ANI:
         expects(in, "Byte", A);
@@ -193,7 +193,7 @@ byte encode(comp_unit in)
         case ORA:
         expects(in, "Register", A);
             out = m_ORA;
-            out |= encode_register(*in.opA) << 4;
+            out |= encode_register(*in->opA) << 4;
             break;
         case ORI:
         expects(in, "Byte", A);
@@ -202,7 +202,7 @@ byte encode(comp_unit in)
         case XRA:
         expects(in, "Register", A);
             out = m_XRA;
-            out |= encode_register(*in.opA) << 4;
+            out |= encode_register(*in->opA) << 4;
             break;
         case XRI:
         expects(in, "Byte", A);
@@ -211,7 +211,7 @@ byte encode(comp_unit in)
         case CMP:
         expects(in, "Register", A);
             out = m_CMP;
-            out |= encode_register(*in.opA);
+            out |= encode_register(*in->opA);
             break;
         case CPI:
         expects(in, "Byte", A);
@@ -268,7 +268,7 @@ byte encode(comp_unit in)
         case Rccc:
         expects(in, "Condition", A);
             out = m_Rccc;
-            out |= encode_cond(*in.opA);
+            out |= encode_cond(*in->opA);
             break;
         case RST:
         expects(in, "Nothing", 0);
@@ -282,11 +282,11 @@ byte encode(comp_unit in)
         case PUSH:
         expects(in, "RegPair", A);
             out = m_PUSH;
-            out |= encode_regpair(*in.opA) << 4;
+            out |= encode_regpair(*in->opA) << 5;
             break;
         case POP:
             out = m_POP;
-            out |= encode_regpair(*in.opA) << 4;
+            out |= encode_regpair(*in->opA) << 5;
             break;
         case XTHL:
         expects(in, "Nothing", 0);
@@ -323,7 +323,7 @@ byte encode(comp_unit in)
             out = m_NOP;
             break;
         default:
-            error("Unknown instruction %d", in.type);
+            error("Unknown instruction %d", in->type);
             exit(1);
     }
 

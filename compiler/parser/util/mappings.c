@@ -3,6 +3,7 @@
 #include "../util/hash.h"
 #include "../util/arrays.h"
 #include <setjmp.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -22,7 +23,7 @@ static struct {
     jmp_buf jmp;
 } maps;
 
-static void push(hash_map* i, int hash, enum instruction_kind val)
+static void push(hash_map* i, int hash, int val)
 {
     if (i->len != i->values.len || i->len != i->keys.len)
         panic("Instruction table lengths dont match (H:V:K) (%3llu:%llu:%-3llu)", i->len, i->values.len, i->keys.len);
@@ -76,12 +77,13 @@ void init_maps()
     add(maps.cnd, "P", P)   ; add(maps.cnd, "_M", _M);
 }
 
-    int find(int hash, hash_map* sect)
+int find(uint32_t hash, hash_map* sect)
 {
     for ( size_t i = 0; i <= sect->len; ++i )
     {
-        debug("I %d VS %d", sect->keys.items[i], hash);
-        if (sect->keys.items[i] == hash)
+        debug("I %13d VS %-12d (%d)", (uint32_t)sect->keys.items[i], hash, sect->values.items[i]);
+
+        if ((uint32_t)sect->keys.items[i] == hash)
             return sect->values.items[i];
     }
 
@@ -90,7 +92,7 @@ void init_maps()
 
 int hash_search(char* name, hash_map* table)
 {
-    int hsh = hash(name[0] == '$'? name + 1 : name); // purge register identifier $
+    uint32_t hsh = hash(name);
 
     if (hsh % 2)
         return find(hsh, table + 1);
@@ -109,7 +111,7 @@ enum reg_pair str_to_rp(char* name)
     if (setjmp(maps.jmp))
         error("'%s' is not a valid register pair", name);
 
-    return hash_search(name, maps.rp);
+    return hash_search(name[0] == '$'? name + 1 : name, maps.rp);
 }
 
 enum reg str_to_reg(char* name)
@@ -123,7 +125,7 @@ enum reg str_to_reg(char* name)
     if (setjmp(maps.jmp))
         error("'%s' is not a valid register", name);
 
-    return hash_search(name, maps.reg);
+    return hash_search(name[0] == '$'? name + 1 : name, maps.reg);
 }
 
 enum instruction_kind str_to_instr(char* name)
