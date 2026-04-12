@@ -25,7 +25,6 @@ enum instruction_kind {
     HLT , NOP
 };
 
-
 typedef byte operand;
 
 enum reg {

@@ -6,7 +6,7 @@ static void __log(char* prefix, const char* fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
-    printf("[%5s] ", prefix);
+    printf("%-5s: ", prefix);
     vprintf( fmt, va);
     printf("\n");
     va_end(va);
@@ -16,9 +16,11 @@ void error(const char* fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
-    printf("Compilation failed! \n");
+    printf("\nCompilation failed! \n");
     vprintf(fmt, va);
     va_end(va);
+
+    exit(1);
 }
 
 void warn(const char* fmt, ...)
@@ -42,7 +44,7 @@ static void __panic(int die, const char* fmt, ...)
 {
     va_list va;
     va_start(va, fmt);
-    printf("Processor panicked!\n");
+    printf("Compiler error!\n");
     vprintf(fmt, va);
     printf("\n");
     va_end(va);

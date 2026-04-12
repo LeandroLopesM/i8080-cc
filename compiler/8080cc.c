@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "../core/log.h"
 #include "parser/parser.h"
 #include "unit.h"
 #include "encoder/encoder.h"
@@ -19,5 +20,7 @@ int main() {
 
     // printf("Out 0b"BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(b));
 
-    parse_line("MOV A, B, C");
+    state s;
+    comp_unit cu = parse_line(&s, "MOV $D, $B", 0);
+    debug("Comes out to "BINPATT, BINGEN(encode(cu)));
 }

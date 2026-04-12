@@ -1,11 +1,12 @@
 BINDIR?=bin
 CC_DIR=compiler
 
-SOURCES = 						\
-	$(BINDIR)/obj/encoder.o		\
-	$(BINDIR)/obj/argument.o	\
-	$(BINDIR)/obj/arrays.o		\
-	$(BINDIR)/obj/parser.o		\
+SOURCES = 								\
+	$(BINDIR)/obj/encoder.o				\
+	$(BINDIR)/obj/argument.o			\
+	$(BINDIR)/obj/arrays.o				\
+	$(BINDIR)/obj/mappings.o		\
+	$(BINDIR)/obj/parser.o				\
 	$(BINDIR)/obj/core.o
 
 $(BINDIR)/compiler.exe: $(SOURCES) $(BINDIR)/obj/compiler.o $(BINDIR)
@@ -24,4 +25,7 @@ $(BINDIR)/obj/arrays.o: $(CC_DIR)/parser/util/arrays.c $(BINDIR)/obj
 	$(CC) $(CFLAGS) $(CC_DIR)/parser/util/arrays.c -c -o $(BINDIR)/obj/arrays.o
 
 $(BINDIR)/obj/parser.o: $(CC_DIR)/parser/parser.c $(BINDIR)/obj
-	$(CC) $(CFLAGS) $(CC_DIR)/parser/parser.c -c -o $(BINDIR)/obj/parser.o
+	$(CC) $(CFLAGS) $(CC_DIR)/parser/parser.c -c -o $(BINDIR)/obj/parser.o -Wno-maybe-uninitialized
+
+$(BINDIR)/obj/mappings.o: $(CC_DIR)/parser/util/mappings.c $(BINDIR)/obj
+	$(CC) $(CFLAGS) $(CC_DIR)/parser/util/mappings.c -c -o $(BINDIR)/obj/mappings.o
