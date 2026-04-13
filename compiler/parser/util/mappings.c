@@ -26,7 +26,7 @@ static struct {
 static void push(hash_map* i, int hash, int val)
 {
     if (i->len != i->values.len || i->len != i->keys.len)
-        panic("Instruction table lengths dont match (H:V:K) (%3llu:%llu:%-3llu)", i->len, i->values.len, i->keys.len);
+        panic("Lookup table lengths dont match (H:V:K) (%3llu:%llu:%-3llu)", i->len, i->values.len, i->keys.len);
 
     push_int(&i->values, val);
     push_int(&i->keys, hash);

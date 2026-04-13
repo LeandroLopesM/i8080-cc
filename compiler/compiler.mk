@@ -5,7 +5,7 @@ SOURCES = 								\
 	$(BINDIR)/obj/encoder.o				\
 	$(BINDIR)/obj/argument.o			\
 	$(BINDIR)/obj/arrays.o				\
-	$(BINDIR)/obj/mappings.o		\
+	$(BINDIR)/obj/mappings.o			\
 	$(BINDIR)/obj/parser.o				\
 	$(BINDIR)/obj/core.o
 
