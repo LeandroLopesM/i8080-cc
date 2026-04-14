@@ -49,32 +49,32 @@ void init_maps()
     memset(&maps.instr[0], 0, sizeof (hash_map));
     memset(&maps.instr[1], 0, sizeof (hash_map));
 
-    add(maps.instr, "MOV", MOV)   ; add(maps.instr, "MVI", MVI)   ; add(maps.instr, "LXI", LXI)   ; add(maps.instr, "LDA", LDA)  ; add(maps.instr, "STA", STA)   ;
-    add(maps.instr, "LHLD", LHLD) ; add(maps.instr, "HLD", SHLD)  ; add(maps.instr, "DAX", LDAX)  ; add(maps.instr, "TAX", STAX) ; add(maps.instr, "CHG", XCHG)  ;
-    add(maps.instr, "ADD", ADD)   ; add(maps.instr, "ADI", ADI)   ; add(maps.instr, "ADC", ADC)   ; add(maps.instr, "ACI", ACI)  ; add(maps.instr, "SUB", SUB)   ;
-    add(maps.instr, "SUI", SUI)   ; add(maps.instr, "SBB", SBB)   ; add(maps.instr, "SBI", SBI)   ; add(maps.instr, "INR", INR)  ; add(maps.instr, "DCR", DCR)   ;
-    add(maps.instr, "INX", INX)   ; add(maps.instr, "DCX", DCX)   ; add(maps.instr, "DAD", DAD)   ; add(maps.instr, "DAA", DAA)  ; add(maps.instr, "ANA", ANA)   ;
-    add(maps.instr, "ANI", ANI)   ; add(maps.instr, "ORA", ORA)   ; add(maps.instr, "ORI", ORI)   ; add(maps.instr, "XRA", XRA)  ; add(maps.instr, "XRI", XRI)   ;
-    add(maps.instr, "CMP", CMP)   ; add(maps.instr, "CPI", CPI)   ; add(maps.instr, "RLC", RLC)   ; add(maps.instr, "RRC", RRC)  ; add(maps.instr, "RAL", RAL)   ;
-    add(maps.instr, "RAR", RAR)   ; add(maps.instr, "CMA", CMA)   ; add(maps.instr, "CMC", CMC)   ; add(maps.instr, "STC", STC)  ; add(maps.instr, "JMP", JMP)   ;
-    add(maps.instr, "Jccc", Jccc) ; add(maps.instr, "CALL", CALL) ; add(maps.instr, "Cccc", Cccc) ; add(maps.instr, "RET", RET)  ; add(maps.instr, "Rccc", Rccc) ;
-    add(maps.instr, "RST", RST)   ; add(maps.instr, "PCHL", PCHL) ; add(maps.instr, "PUSH", PUSH) ; add(maps.instr, "POP", POP)  ; add(maps.instr, "XTHL", XTHL) ;
-    add(maps.instr, "SPHL", SPHL) ; add(maps.instr, "IN", IN)     ; add(maps.instr, "OUT", OUT)   ; add(maps.instr, "EI", EI)    ; add(maps.instr, "DI", DI)     ;
-    add(maps.instr, "HLT", HLT)   ; add(maps.instr, "NOP", NOP)   ;
+    add(maps.instr, "MOV", MOV)  ; add(maps.instr, "MVI", MVI)  ; add(maps.instr, "LXI", LXI)  ; add(maps.instr, "LDA", LDA) ; add(maps.instr, "STA", STA)  ;
+    add(maps.instr, "LHLD", LHLD); add(maps.instr, "HLD", SHLD) ; add(maps.instr, "DAX", LDAX) ; add(maps.instr, "TAX", STAX); add(maps.instr, "CHG", XCHG) ;
+    add(maps.instr, "ADD", ADD)  ; add(maps.instr, "ADI", ADI)  ; add(maps.instr, "ADC", ADC)  ; add(maps.instr, "ACI", ACI) ; add(maps.instr, "SUB", SUB)  ;
+    add(maps.instr, "SUI", SUI)  ; add(maps.instr, "SBB", SBB)  ; add(maps.instr, "SBI", SBI)  ; add(maps.instr, "INR", INR) ; add(maps.instr, "DCR", DCR)  ;
+    add(maps.instr, "INX", INX)  ; add(maps.instr, "DCX", DCX)  ; add(maps.instr, "DAD", DAD)  ; add(maps.instr, "DAA", DAA) ; add(maps.instr, "ANA", ANA)  ;
+    add(maps.instr, "ANI", ANI)  ; add(maps.instr, "ORA", ORA)  ; add(maps.instr, "ORI", ORI)  ; add(maps.instr, "XRA", XRA) ; add(maps.instr, "XRI", XRI)  ;
+    add(maps.instr, "CMP", CMP)  ; add(maps.instr, "CPI", CPI)  ; add(maps.instr, "RLC", RLC)  ; add(maps.instr, "RRC", RRC) ; add(maps.instr, "RAL", RAL)  ;
+    add(maps.instr, "RAR", RAR)  ; add(maps.instr, "CMA", CMA)  ; add(maps.instr, "CMC", CMC)  ; add(maps.instr, "STC", STC) ; add(maps.instr, "JMP", JMP)  ;
+    add(maps.instr, "Jccc", Jccc); add(maps.instr, "CALL", CALL); add(maps.instr, "Cccc", Cccc); add(maps.instr, "RET", RET) ; add(maps.instr, "Rccc", Rccc);
+    add(maps.instr, "RST", RST)  ; add(maps.instr, "PCHL", PCHL); add(maps.instr, "PUSH", PUSH); add(maps.instr, "POP", POP) ; add(maps.instr, "XTHL", XTHL);
+    add(maps.instr, "SPHL", SPHL); add(maps.instr, "IN", IN)    ; add(maps.instr, "OUT", OUT)  ; add(maps.instr, "EI", EI)   ; add(maps.instr, "DI", DI)    ;
+    add(maps.instr, "HLT", HLT)  ; add(maps.instr, "NOP", NOP)  ;
 
-    add(maps.reg, "A", A)   ; add(maps.reg, "B", B)  ;
-    add(maps.reg, "C", C)   ; add(maps.reg, "D", D)  ;
-    add(maps.reg, "E", E)   ; add(maps.reg, "H", H)  ;
-    add(maps.reg, "L", L)   ; add(maps.reg, "M", M)  ;
+    add(maps.reg, "A", REG_A   ); add(maps.reg, "B", REG_B  );
+    add(maps.reg, "C", REG_C   ); add(maps.reg, "D", REG_D  );
+    add(maps.reg, "E", REG_E   ); add(maps.reg, "H", REG_H  );
+    add(maps.reg, "L", REG_L   ); add(maps.reg, "M", REG_M  );
 
-    add(maps.rp, "BC", BC)  ; add(maps.rp, "DE", DE) ;
-    add(maps.rp, "HL", HL)  ; add(maps.rp, "SP", SP) ;
-    add(maps.rp, "PSW", PSW);
+    add(maps.rp, "BC",  RP_BC  ); add(maps.rp, "DE", RP_DE );
+    add(maps.rp, "HL",  RP_HL  ); add(maps.rp, "SP", RP_SP );
+    add(maps.rp, "PSW", RP_PSW);
 
-    add(maps.cnd, "NZ", NZ) ; add(maps.cnd, "Z", Z)  ;
-    add(maps.cnd, "NC", NC) ; add(maps.cnd, "_C", _C);
-    add(maps.cnd, "PO", PO) ; add(maps.cnd, "PE", PE);
-    add(maps.cnd, "P", P)   ; add(maps.cnd, "_M", _M);
+    add(maps.cnd, "NZ", RC_NZ ); add(maps.cnd, "Z",   RC_Z);
+    add(maps.cnd, "NC", RC_NC ); add(maps.cnd, "_C", RC_C);
+    add(maps.cnd, "PO", RC_PO ); add(maps.cnd, "PE", RC_PE);
+    add(maps.cnd, "P",  RC_P); add(maps.cnd, "_M", RC_M);
 }
 
 int find(uint32_t hash, hash_map* sect)

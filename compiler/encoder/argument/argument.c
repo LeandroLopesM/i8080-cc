@@ -6,14 +6,14 @@
 byte encode_register(enum reg r)
 {
     switch(r) {
-    case A: return 0b111;
-    case B: return 0b000;
-    case C: return 0b001;
-    case D: return 0b010;
-    case E: return 0b011;
-    case H: return 0b100;
-    case L: return 0b101;
-    case M: return 0b110;
+    case REG_A: return 0b111;
+    case REG_B: return 0b000;
+    case REG_C: return 0b001;
+    case REG_D: return 0b010;
+    case REG_E: return 0b011;
+    case REG_H: return 0b100;
+    case REG_L: return 0b101;
+    case REG_M: return 0b110;
     }
 
     error("Invalid register selector %d", r);
@@ -24,11 +24,11 @@ byte encode_regpair(enum reg_pair selector)
 {
 
     switch(selector) {
-    case BC: return 0b00;
-    case DE: return 0b01;
-    case HL: return 0b10;
-    case SP: return 0b11;
-    case PSW: ; // not handled here
+    case RP_BC: return 0b00;
+    case RP_DE: return 0b01;
+    case RP_HL: return 0b10;
+    case RP_SP: return 0b11;
+    case RP_PSW: ; // not handled here
     }
 
     error("Invalid register selector %d", selector);
@@ -38,8 +38,8 @@ byte encode_regpair(enum reg_pair selector)
 byte encode_rp_xx(byte selector)
 {
     switch (selector) {
-    case BC: return 0b00;
-    case DE: return 0b01;
+    case RP_BC: return 0b00;
+    case RP_DE: return 0b01;
     }
 
     error("Invalid register selector %d", selector);
@@ -49,10 +49,10 @@ byte encode_rp_xx(byte selector)
 byte encode_stack_rp(byte selector)
 {
     switch(selector) {
-    case BC: return 0b00;
-    case DE: return 0b01;
-    case HL: return 0b10;
-    case PSW: return 0b11;
+    case RP_BC: return 0b00;
+    case RP_DE: return 0b01;
+    case RP_HL: return 0b10;
+    case RP_PSW: return 0b11;
     }
 
     error("Invalid register selector %d", selector);
@@ -62,14 +62,14 @@ byte encode_stack_rp(byte selector)
 byte encode_cond(enum reg_cond selector)
 {
     switch(selector) {
-    case NZ: return 0b000;
-    case Z: return 0b001;
-    case NC: return 0b010;
-    case _C: return 0b011;
-    case PO: return 0b100;
-    case PE: return 0b101;
-    case P: return 0b110;
-    case M: return 0b111;
+    case RC_NZ: return 0b000;
+    case RC_Z: return 0b001;
+    case RC_NC: return 0b010;
+    case RC_C: return 0b011;
+    case RC_PO: return 0b100;
+    case RC_PE: return 0b101;
+    case RC_P: return 0b110;
+    case RC_M: return 0b111;
     }
 
     error("Invalid condition selector %d", selector);

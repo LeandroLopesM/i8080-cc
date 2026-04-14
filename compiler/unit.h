@@ -28,15 +28,33 @@ enum instruction_kind {
 typedef byte operand;
 
 enum reg {
-    A, B, C, D, E, H, L, M
+    REG_A,
+    REG_B,
+    REG_C,
+    REG_D,
+    REG_E,
+    REG_H,
+    REG_L,
+    REG_M
 };
 
 enum reg_pair {
-    BC, DE, HL, SP, PSW
+    RP_BC,
+    RP_DE,
+    RP_HL,
+    RP_SP,
+    RP_PSW
 };
 
 enum reg_cond {
-    NZ, Z, NC, _C, PO, PE, P, _M
+    RC_NZ,
+    RC_Z,
+    RC_NC,
+    RC_C,
+    RC_PO,
+    RC_PE,
+    RC_P,
+    RC_M
 };
 
 typedef struct _comp_unit {

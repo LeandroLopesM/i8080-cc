@@ -117,63 +117,63 @@ byte encode(comp_unit* in)
             out = m_XCHG;
             break;
         case ADD:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_ADD;
             out |= encode_register(*in->opA);
             break;
         case ADI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_ADI;
             break;
         case ADC:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_ADC;
             out |= encode_register(*in->opA);
             break;
         case ACI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_ACI;
             break;
         case SUB:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_SUB;
             out |= encode_register(*in->opA);
             break;
         case SUI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_SUI;
             break;
         case SBB:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_SBB;
             out |= encode_register(*in->opA);
             break;
         case SBI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_SBI;
             break;
         case INR:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_INR;
             out |= encode_register(*in->opA) << 4;
             break;
         case DCR:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_DCR;
             out |= encode_register(*in->opA) << 4;
             break;
         case INX:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_INR;
             out |= encode_regpair(*in->opA) << 4;
             break;
         case DCX:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_INR;
             out |= encode_regpair(*in->opA) << 4;
             break;
         case DAD:
-        expects(in, "RegisterPair", A);
+        expects(in, "RegisterPair", REG_A);
             out = m_DAD;
             out |= encode_regpair(*in->opA) << 4;
             break;
@@ -182,39 +182,39 @@ byte encode(comp_unit* in)
             out = m_DAA;
             break;
         case ANA:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_ANA;
             out |= encode_register(*in->opA) << 4;
             break;
         case ANI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_ANI;
             break;
         case ORA:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_ORA;
             out |= encode_register(*in->opA) << 4;
             break;
         case ORI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_ORI;
             break;
         case XRA:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_XRA;
             out |= encode_register(*in->opA) << 4;
             break;
         case XRI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_XRI;
             break;
         case CMP:
-        expects(in, "Register", A);
+        expects(in, "Register", REG_A);
             out = m_CMP;
             out |= encode_register(*in->opA);
             break;
         case CPI:
-        expects(in, "Byte", A);
+        expects(in, "Byte", REG_A);
             out = m_ORI;
             break;
         case RLC:
@@ -266,7 +266,7 @@ byte encode(comp_unit* in)
             out = m_RET;
             break;
         case Rccc:
-        expects(in, "Condition", A);
+        expects(in, "Condition", REG_A);
             out = m_Rccc;
             out |= encode_cond(*in->opA);
             break;
@@ -280,7 +280,7 @@ byte encode(comp_unit* in)
             out = m_PCHL;
             break;
         case PUSH:
-        expects(in, "RegPair", A);
+        expects(in, "RegPair", REG_A);
             out = m_PUSH;
             out |= encode_regpair(*in->opA) << 4;
             break;
@@ -297,12 +297,12 @@ byte encode(comp_unit* in)
             out = m_SPHL;
             break;
         case IN:
-        expects(in, "Port", A);
+        expects(in, "Port", REG_A);
             warn("IN: i8080-emu does not implement this instruction and will panic");
             out = m_IN;
             break;
         case OUT:
-        expects(in, "Port", A);
+        expects(in, "Port", REG_A);
             warn("IN: i8080-emu does not implement this instruction and will panic");
             out = m_OUT;
             break;
