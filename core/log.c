@@ -15,8 +15,6 @@ void error(const char* fmt, ...)
     printf("\nCompilation failed! \n");
     vprintf(fmt, va);
     va_end(va);
-
-    exit(1);
 }
 
 void warn(const char* fmt, ...)

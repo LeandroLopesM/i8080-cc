@@ -1,5 +1,6 @@
 #include "util/mappings.h"
 #include "../../core/log.h"
+#include <setjmp.h>
 #include "parser.h"
 
 typedef struct {
@@ -80,22 +81,44 @@ void parse_numlit(string in, safe_ptr a, safe_ptr b)
 
     switch(in.items[in.len - 1])
     {
+        case 'H':
         case 'h':
             parse_num(in, a, b, 16, 2, 4);
             break;
+        case 'D':
         case 'd':
             parse_num(in, a, b, 10, UINT8_MAX, UINT16_MAX);
+            break;
+        case 'B':
+        case 'b':
+            parse_num(in, a, b, 2, UINT8_MAX, UINT16_MAX);
             break;
         default:
             error("Unknown postfix for integer %s (%c)", in.items, in.items[in.len - 1]);
     }
 }
 
+void str_toupper(char* c)
+{
+    char* copy = c;
+
+    while(*copy)
+    {
+        *copy = toupper(*copy);
+        copy++;
+    }
+}
+
+extern jmp_buf err_sink;
+
 comp_unit parse_line(char* line, int *fail_flag)
 {
+    str_toupper(line);
+
     string_arr* ta = tokenize(line);
     comp_unit out;
     memset(&out, 0, sizeof(comp_unit));
+
 
     *fail_flag = 0;
 
@@ -106,20 +129,20 @@ comp_unit parse_line(char* line, int *fail_flag)
         printf("[%s] ", ta->items[i].items);
     }
 
-    printf("\n");
+    int buffer = str_to_instr(ta->items[0].items);
 
-    out.type = str_to_instr(ta->items[0].items);
+    if (buffer == -1)
+        goto abort;
+
+    out.type = buffer;
 
     if (ta->len > 1)
     {
-        out.opA = malloc(sizeof(byte));
-        out.opB = malloc(sizeof(byte));
-        out.opC = malloc(sizeof(byte));
+        out.opA = calloc(1, sizeof(byte));
+        out.opB = calloc(1, sizeof(byte));
+        out.opC = calloc(1, sizeof(byte));
 
         safe_ptr a = {0, out.opA}, b = {0, out.opB}, c = {0, out.opC};
-
-
-        *a.p = *b.p = *c.p = 0;
 
         for (size_t i = 1; i < ta->len; ++i)
         {
@@ -168,6 +191,10 @@ comp_unit parse_line(char* line, int *fail_flag)
     }
 
     debug("Got %d %d %d %d", out.type, out.opA? *out.opA : 0, out.opB? *out.opB : 0, out.opC? *out.opC : 0);
+    goto end;
 
+abort:
+    *fail_flag = 1;
+end:
     return out;
 }

@@ -1,10 +1,10 @@
-#ifndef DECODE_H
-#define DECODE_H
+#ifndef ENCODE_H
+#define ENCODE_H
 
 #include "../../core/common.h"
 #include "../unit.h"
 
-byte encode(comp_unit in);
+byte encode(comp_unit* in);
 void dump_decoder();
 
-#endif // DECODE_H
+#endif // ENCODE_H

@@ -27,7 +27,7 @@ static struct {
 static void push(hash_map* i, int hash, int val)
 {
     if (i->len != i->values.len || i->len != i->keys.len)
-        panic("Lookup table lengths dont match (H:V:K) (%3llu:%llu:%-3llu)", i->len, i->values.len, i->keys.len);
+        panic("Lookup table lengths dont match (H:V:K) (%3llu:%llu:%-3llu)\n", i->len, i->values.len, i->keys.len);
 
     push_int(&i->values, val);
     push_int(&i->keys, hash);
@@ -84,7 +84,8 @@ int find(const char* what, const char* original, int hash, hash_map* sect)
     {
         WHEN_VERBOSE(
             debug(
-                "Map %4s (Index %3lu) %13d VS %-13d (%d)",
+                "Map %11s %3s (Index %2lu) %13d VS %-13d (%d)",
+                what,
                 sect->keys.items[i] == hash? "HIT" : "MISS",
                 i,
                 sect->keys.items[i],
@@ -95,7 +96,7 @@ int find(const char* what, const char* original, int hash, hash_map* sect)
             return sect->values.items[i];
     }
 
-    error("'%s' is not a valid %s.", original, what);
+    error("'%s' is not a valid %s.\n", original, what);
     return -1;
 }
 
@@ -109,33 +110,33 @@ int hash_search(const char* what, const char* name, hash_map* table)
         return find(what, name, hsh, table + 0);
 }
 
-enum reg_pair str_to_rp(const char* name)
+int str_to_rp(const char* name)
 {
     if (maps.rp[0].len == 0)
     {
-        WHEN_VERBOSE (printf(YELLOW"WARN"RESET": Lookup tables weren't initialized before search."));
+        WHEN_VERBOSE (printf(YELLOW"WARN"RESET": Lookup tables weren't initialized before search.\n"));
         init_maps();
     }
 
     return hash_search("register pair", name[0] == '$'? name + 1 : name, maps.rp);
 }
 
-enum reg str_to_reg(const char* name)
+int str_to_reg(const char* name)
 {
     if (maps.reg[0].len == 0)
     {
-        WHEN_VERBOSE (printf(YELLOW"WARN"RESET": Lookup tables weren't initialized before search."));
+        WHEN_VERBOSE (printf(YELLOW"WARN"RESET": Lookup tables weren't initialized before search.\n"));
         init_maps();
     }
 
     return hash_search("register", name[0] == '$'? name + 1 : name, maps.reg);
 }
 
-enum instruction_kind str_to_instr(const char* name)
+int str_to_instr(const char* name)
 {
     if (maps.instr[0].len == 0)
     {
-        WHEN_VERBOSE (warn("Lookup tables weren't initialized before search."));
+        WHEN_VERBOSE (warn("Lookup tables weren't initialized before search.\n"));
         init_maps();
     }
 
