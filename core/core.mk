@@ -1,9 +1,9 @@
 DIR=core
-CORE_SOURCES = 		\
-	$(BINDIR)/obj/log.o	\
+CORE_DEPS = 		\
+	$(OBJDIR)/log.o	\
 
-$(BINDIR)/obj/core.o: $(CORE_SOURCES) $(BINDIR)/obj
-	ld --relocatable $(CORE_SOURCES) -o $(BINDIR)/obj/core.o
+$(OBJDIR)/core.o: $(CORE_DEPS) $(OBJDIR)/obj
+	ld --relocatable $(CORE_DEPS) -o $(OBJDIR)/core.o
 
-$(BINDIR)/obj/log.o: $(DIR)/log.c $(BINDIR)/obj
-	$(CC) $(DIR)/log.c -c -o $(BINDIR)/obj/log.o $(CFLAGS)
+$(OBJDIR)/log.o: $(DIR)/log.c $(BINDIR)/obj
+	$(CC) $(DIR)/log.c -c -o $(OBJDIR)/log.o $(CFLAGS)

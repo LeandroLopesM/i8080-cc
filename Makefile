@@ -7,7 +7,5 @@ BUILD_EXE=1
 include compiler/compiler.mk
 include core/core.mk
 
-$(BINDIR):
-	mkdir $(BINDIR)
-$(BINDIR)/obj: $(BINDIR)
+$(BINDIR)/obj:
 	mkdir -p $(BINDIR)/obj
