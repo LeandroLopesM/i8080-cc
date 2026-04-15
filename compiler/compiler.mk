@@ -1,33 +1,32 @@
 BINDIR?=bin
 CC_DIR?=compiler
 
-SOURCES = 								\
-	$(BINDIR)/obj/encoder.o				\
-	$(BINDIR)/obj/argument.o			\
-	$(BINDIR)/obj/arrays.o				\
-	$(BINDIR)/obj/mappings.o			\
-	$(BINDIR)/obj/parser.o				\
-	$(BINDIR)/obj/core.o
+CC_DEPS = 							\
+	$(OBJDIR)/encoder.o				\
+	$(OBJDIR)/argument.o			\
+	$(OBJDIR)/arrays.o				\
+	$(OBJDIR)/mappings.o			\
+	$(OBJDIR)/parser.o
 
 ifdef BUILD_EXE
-$(BINDIR)/compiler.exe: $(SOURCES) $(BINDIR)/obj/compiler.o $(BINDIR)
-	$(CC) $(CFLAGS) $(CC_DIR)/8080cc.c -o $(BINDIR)/8080cc $(SOURCES)
+$(BINDIR)/compiler.exe: $(CC_DEPS) $(OBJDIR)/compiler.o $(BINDIR) $(OBJDIR)/core.o
+	$(CC) $(CFLAGS) $(CC_DIR)/8080cc.c -o $(BINDIR)/8080cc $(CC_DEPS) $(OBJDIR)/core.o
 endif
 
-$(BINDIR)/obj/compiler.o: $(SOURCES) $(BINDIR)/obj
-	ld --relocatable $(SOURCES) -o $(BINDIR)/obj/compiler.o
+$(OBJDIR)/compiler.o: $(CC_DEPS) $(OBJDIR)/
+	ld --relocatable $(CC_DEPS) -o $(OBJDIR)/compiler.o
 
-$(BINDIR)/obj/encoder.o: $(CC_DIR)/encoder/encoder.c $(BINDIR)/obj
-	$(CC) $(CFLAGS) $(CC_DIR)/encoder/encoder.c -c -o $(BINDIR)/obj/encoder.o
+$(OBJDIR)/encoder.o: $(CC_DIR)/encoder/encoder.c $(OBJDIR)/
+	$(CC) $(CFLAGS) $(CC_DIR)/encoder/encoder.c -c -o $(OBJDIR)/encoder.o
 
-$(BINDIR)/obj/argument.o: $(CC_DIR)/encoder/argument/argument.c $(BINDIR)/obj
-	$(CC) $(CFLAGS) $(CC_DIR)/encoder/argument/argument.c -c -o $(BINDIR)/obj/argument.o
+$(OBJDIR)/argument.o: $(CC_DIR)/encoder/argument/argument.c $(OBJDIR)/
+	$(CC) $(CFLAGS) $(CC_DIR)/encoder/argument/argument.c -c -o $(OBJDIR)/argument.o
 
-$(BINDIR)/obj/arrays.o: $(CC_DIR)/parser/util/arrays.c $(BINDIR)/obj
-	$(CC) $(CFLAGS) $(CC_DIR)/parser/util/arrays.c -c -o $(BINDIR)/obj/arrays.o
+$(OBJDIR)/arrays.o: $(CC_DIR)/parser/util/arrays.c $(OBJDIR)/
+	$(CC) $(CFLAGS) $(CC_DIR)/parser/util/arrays.c -c -o $(OBJDIR)/arrays.o
 
-$(BINDIR)/obj/parser.o: $(CC_DIR)/parser/parser.c $(BINDIR)/obj
-	$(CC) $(CFLAGS) $(CC_DIR)/parser/parser.c -c -o $(BINDIR)/obj/parser.o -Wno-maybe-uninitialized
+$(OBJDIR)/parser.o: $(CC_DIR)/parser/parser.c $(OBJDIR)/
+	$(CC) $(CFLAGS) $(CC_DIR)/parser/parser.c -c -o $(OBJDIR)/parser.o -Wno-maybe-uninitialized
 
-$(BINDIR)/obj/mappings.o: $(CC_DIR)/parser/util/mappings.c $(BINDIR)/obj
-	$(CC) $(CFLAGS) $(CC_DIR)/parser/util/mappings.c -c -o $(BINDIR)/obj/mappings.o
+$(OBJDIR)/mappings.o: $(CC_DIR)/parser/util/mappings.c $(OBJDIR)/
+	$(CC) $(CFLAGS) $(CC_DIR)/parser/util/mappings.c -c -o $(OBJDIR)/mappings.o

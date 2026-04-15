@@ -10,6 +10,8 @@ enum operand_kind {
     REGISTER    // X[R]
 };
 
+#ifndef INSTRUNCTION_KIND
+#define INSTRUNCTION_KIND
 enum instruction_kind {
     MOV , MVI , LXI , LDA , STA ,
     LHLD, SHLD, LDAX, STAX, XCHG,
@@ -24,6 +26,7 @@ enum instruction_kind {
     SPHL, IN  , OUT , EI  , DI  ,
     HLT , NOP
 };
+#endif // INSTRUNCTION_KIND
 
 typedef byte operand;
 
