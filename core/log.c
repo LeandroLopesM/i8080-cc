@@ -6,7 +6,6 @@ static void __log(char* prefix, const char* fmt, va_list va)
 {
     printf("%-5s: ", prefix);
     vprintf( fmt, va);
-    printf("\n");
 }
 
 void error(const char* fmt, ...)
@@ -43,7 +42,6 @@ static void __panic(int die, const char* fmt, ...)
     va_start(va, fmt);
     printf("Compiler error!\n");
     vprintf(fmt, va);
-    printf("\n");
     va_end(va);
 
     if (die) abort();

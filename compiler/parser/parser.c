@@ -91,7 +91,7 @@ void parse_numlit(string in, safe_ptr a, safe_ptr b)
     }
 }
 
-comp_unit parse_line(state* s, char* line, size_t current_offset, int *fail_flag)
+comp_unit parse_line(char* line, int *fail_flag)
 {
     string_arr* ta = tokenize(line);
     comp_unit out;
@@ -99,7 +99,7 @@ comp_unit parse_line(state* s, char* line, size_t current_offset, int *fail_flag
 
     *fail_flag = 0;
 
-    printf("DEBUG: Tokenized: ");
+    debug("Tokenized: ");
 
     for (size_t i = 0; i < ta->len; ++i)
     {

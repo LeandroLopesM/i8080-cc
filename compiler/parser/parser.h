@@ -9,18 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    map labels;
-
-    struct {
-        enum {
-            BINARY,
-            EXE_8080
-        } out_type;
-    } flags;
-} state;
-
 string_arr* tokenize(char* c);
-comp_unit parse_line(state* s, char* line, size_t current_offset, int* fail_flag);
+comp_unit parse_line(char* line, int* fail_flag);
 
 #endif // PARSER_H
