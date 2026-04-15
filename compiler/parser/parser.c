@@ -122,12 +122,14 @@ comp_unit parse_line(char* line, int *fail_flag)
 
     *fail_flag = 0;
 
-    debug("Tokenized: ");
+    WHEN_VERBOSE(
+        debug("Tokenized: ");
 
-    for (size_t i = 0; i < ta->len; ++i)
-    {
-        printf("[%s] ", ta->items[i].items);
-    }
+        for (size_t i = 0; i < ta->len; ++i)
+        {
+            printf("[%s] ", ta->items[i].items);
+        }
+    )
 
     int buffer = str_to_instr(ta->items[0].items);
 
@@ -190,7 +192,7 @@ comp_unit parse_line(char* line, int *fail_flag)
         *out.opC = *c.p;
     }
 
-    debug("Got %d %d %d %d", out.type, out.opA? *out.opA : 0, out.opB? *out.opB : 0, out.opC? *out.opC : 0);
+    WHEN_VERBOSE(debug("Got %d %d %d %d", out.type, out.opA? *out.opA : 0, out.opB? *out.opB : 0, out.opC? *out.opC : 0));
     goto end;
 
 abort:

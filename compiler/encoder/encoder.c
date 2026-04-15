@@ -79,7 +79,6 @@ byte encode(comp_unit* in)
         expects(in, "Register, byte", _A | _B);
             out = m_MVI;
             out |= encode_register(*in->opA) << 3;
-            debug("Encoded: %X", encode_register(*in->opA));
             *in->opA = *in->opB;
             break;
         case LXI:
