@@ -1,4 +1,5 @@
 #include "../../../core/log.h"
+#include "../../../core/colors.h"
 #include "../../unit.h"
 #include "../util/hash.h"
 #include "../util/arrays.h"
@@ -77,67 +78,66 @@ void init_maps()
     add(maps.cnd, "P",  RC_P); add(maps.cnd, "_M", RC_M);
 }
 
-int find(uint32_t hash, hash_map* sect)
+int find(const char* what, const char* original, int hash, hash_map* sect)
 {
-    for ( size_t i = 0; i <= sect->len; ++i )
+    for ( size_t i = 0; i < sect->len; ++i )
     {
-        debug("I %13d VS %-12d (%d)", (uint32_t)sect->keys.items[i], hash, sect->values.items[i]);
+        WHEN_VERBOSE(
+            debug(
+                "Map %4s (Index %3lu) %13d VS %-13d (%d)",
+                sect->keys.items[i] == hash? "HIT" : "MISS",
+                i,
+                sect->keys.items[i],
+                hash,
+                sect->values.items[i]));
 
-        if ((uint32_t)sect->keys.items[i] == hash)
+        if (sect->keys.items[i] == hash)
             return sect->values.items[i];
     }
 
-    longjmp(maps.jmp, 1);
+    error("'%s' is not a valid %s.", original, what);
+    return -1;
 }
 
-int hash_search(char* name, hash_map* table)
+int hash_search(const char* what, const char* name, hash_map* table)
 {
     uint32_t hsh = hash(name);
 
-    if (hsh % 2)
-        return find(hsh, table + 1);
+    if (hsh % 2 == 1)
+        return find(what, name, hsh, table + 1);
     else
-        return find(hsh, table + 0);
+        return find(what, name, hsh, table + 0);
 }
 
-enum reg_pair str_to_rp(char* name)
+enum reg_pair str_to_rp(const char* name)
 {
     if (maps.rp[0].len == 0)
     {
-        warn("Lookup tables weren't initialized before search.");
+        WHEN_VERBOSE (printf(YELLOW"WARN"RESET": Lookup tables weren't initialized before search."));
         init_maps();
     }
 
-    if (setjmp(maps.jmp))
-        error("'%s' is not a valid register pair", name);
-
-    return hash_search(name[0] == '$'? name + 1 : name, maps.rp);
+    return hash_search("register pair", name[0] == '$'? name + 1 : name, maps.rp);
 }
 
-enum reg str_to_reg(char* name)
+enum reg str_to_reg(const char* name)
 {
     if (maps.reg[0].len == 0)
     {
-        warn("Lookup tables weren't initialized before search.");
+        WHEN_VERBOSE (printf(YELLOW"WARN"RESET": Lookup tables weren't initialized before search."));
         init_maps();
     }
 
-    if (setjmp(maps.jmp))
-        error("'%s' is not a valid register", name);
-
-    return hash_search(name[0] == '$'? name + 1 : name, maps.reg);
+    return hash_search("register", name[0] == '$'? name + 1 : name, maps.reg);
 }
 
-enum instruction_kind str_to_instr(char* name)
+enum instruction_kind str_to_instr(const char* name)
 {
     if (maps.instr[0].len == 0)
     {
-        warn("Instruction lookup tables weren't initialized before search.");
+        WHEN_VERBOSE (warn("Lookup tables weren't initialized before search."));
         init_maps();
     }
 
-    if (setjmp(maps.jmp))
-        error("'%s' is not a valid instruction", name);
-
-    return hash_search(name, maps.instr);
+    return hash_search("instruction", name, maps.instr);
 }

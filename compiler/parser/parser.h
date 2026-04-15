@@ -21,6 +21,6 @@ typedef struct {
 } state;
 
 string_arr* tokenize(char* c);
-comp_unit parse_line(state* s, char* line, size_t current_offset);
+comp_unit parse_line(state* s, char* line, size_t current_offset, int* fail_flag);
 
 #endif // PARSER_H

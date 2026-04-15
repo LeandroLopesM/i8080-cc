@@ -61,9 +61,9 @@ enum reg_cond {
 };
 
 typedef struct _comp_unit {
-    struct _comp_unit* next;
-
     enum instruction_kind type;
+
+    byte argc;
     operand* opA;
     operand* opB;
     operand* opC;
